@@ -13,7 +13,10 @@ import org.junit.rules.ExpectedException;
 public class IndianCensusTest {
 private static final String INDIA_CENSUS_PATH_FILE = "C:/Users/MD_AFROZ/eclipse-workspace/IndianStateCensusAnalyser/src/resources/IndiaStateCensusData.csv";
 private static final String WRONG_CENSUS_PATH_FILE = "";
+private static final String TXT_CENSUS_PATH_FILE = "D:/Eclipse_LFP_112/IndiaStateCensusAnalyser/src/main/resources/IndiaStateCode.txt";
 
+
+//Given the States Census CSV file, Check to ensure the Number of Record matches.
 @Test
 public void givenIndiaCensusCSVFile_WhenLoaded_ShouldReturnCorrectRecords() {
 	IndianCensusAnalyzer censusAnalyser = new IndianCensusAnalyzer();
@@ -25,16 +28,29 @@ public void givenIndiaCensusCSVFile_WhenLoaded_ShouldReturnCorrectRecords() {
 	}
 }
 
+ //Given the State Census CSV file incorrect, returns a custom exception.
 @Test
 public void givenIndiaCensusData_WithWrongFile_ShouldThrowException() {
 	try {
 		IndianCensusAnalyzer censusAnalyser = new IndianCensusAnalyzer();
-		@SuppressWarnings("deprecation")
 		ExpectedException exceptionRule = ExpectedException.none();
 		exceptionRule.expect(CensusAnalyserException.class);
 		censusAnalyser.loadIndiaCensusData(WRONG_CENSUS_PATH_FILE);
 	} catch (CensusAnalyserException e) {
 		Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
 	}
+}
+
+//Given the State Census CSV file with incorrect type, Should throw exception.
+@Test
+public void givenIndiaCensusCSVFile_WhenLoadedWithWrongType_ShouldThrowException() {
+    try {
+    	IndianCensusAnalyzer censusAnalyser = new IndianCensusAnalyzer();
+        ExpectedException exceptionRule = ExpectedException.none();
+        exceptionRule.expect(CensusAnalyserException.class);
+        censusAnalyser.loadIndiaCensusData(TXT_CENSUS_PATH_FILE);
+    } catch (CensusAnalyserException e) {
+        Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+    }
 }
 }
