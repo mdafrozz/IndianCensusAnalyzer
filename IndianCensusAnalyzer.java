@@ -17,7 +17,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
  *
  */
 public class IndianCensusAnalyzer {
-	String path = "C:/Users/MD_AFROZ/eclipse-workspace/IndianStateCensusAnalyser/src/resources/IndiaStateCensusData.csv";
+	static String path = "C:/Users/MD_AFROZ/eclipse-workspace/IndianStateCensusAnalyser/src/resources/IndiaStateCensusData.csv";
 	public int loadIndiaCensusData(String path) throws CensusAnalyserException {
 
 		try {
@@ -37,17 +37,36 @@ public class IndianCensusAnalyzer {
 			throw new CensusAnalyserException(e.getMessage(),
 					CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
 		}
-	
 	}
+	
+	public int loadStateCodeData(String csvPath) throws CensusAnalyserException {
+        try (Reader reader = Files.newBufferedReader(Paths.get(csvPath))) {
+            CsvToBeanBuilder<IndianStateCodeCSV> csvCsvToBeanBuilder = new CsvToBeanBuilder<IndianStateCodeCSV>(reader);
+            csvCsvToBeanBuilder.withType(IndianStateCodeCSV.class);
+            csvCsvToBeanBuilder.withIgnoreLeadingWhiteSpace(true);
+            CsvToBean<IndianStateCodeCSV> csvToBean = csvCsvToBeanBuilder.build();
+            Iterator<IndianStateCodeCSV> censusCSVIterator = csvToBean.iterator();
+            int numOfEntries = 0;
+			while (censusCSVIterator.hasNext()) {
+				numOfEntries++;
+				censusCSVIterator.next();
+			}
+            return numOfEntries;
+        } catch (IOException e) {
+            throw new CensusAnalyserException(e.getMessage(), CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
+        }
+    }
 
 	public static void main(String[] args) {
 		System.out.println("******************Indian Census Analyzer******************");
 		
-		/*
-		 * try { IndianCensusAnalyzer census = new IndianCensusAnalyzer();
-		 * census.loadIndiaCensusData(); } catch (CensusAnalyserException e) { // TODO
-		 * Auto-generated catch block e.printStackTrace(); }
-		 */
+		try {
+			IndianCensusAnalyzer census = new IndianCensusAnalyzer();
+			census.loadIndiaCensusData(path);
+		} catch (CensusAnalyserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
