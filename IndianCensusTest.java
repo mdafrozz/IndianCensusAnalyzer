@@ -92,4 +92,17 @@ public void givenIndiaStateCodeCSVFile_WhenLoaded_ShouldReturnCorrectRecords() {
 
     }
 }
+
+//Given the State Census CSV file incorrect, returns a custom exception.
+	@Test
+	public void givenIndiaStateCodeData_WithWrongFile_ShouldThrowException() {
+		try {
+			IndianCensusAnalyzer censusAnalyser = new IndianCensusAnalyzer();
+			ExpectedException exceptionRule = ExpectedException.none();
+			exceptionRule.expect(CensusAnalyserException.class);
+			censusAnalyser.loadStateCodeData(WRONG_CENSUS_PATH_FILE);
+		} catch (CensusAnalyserException e) {
+			Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
+		}
+	}
 }
