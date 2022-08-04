@@ -53,4 +53,15 @@ public void givenIndiaCensusCSVFile_WhenLoadedWithWrongType_ShouldThrowException
         Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
     }
 }
+//Given the State Census CSV file with incorrect Delimiter, Should throw exception.
+@Test
+public void givenIndiaCensusCSVFile_WhenLoadedWithWrongDelimiter_ShouldThrowException() throws CensusAnalyserException {
+	IndianCensusAnalyzer censusAnalyser = new IndianCensusAnalyzer();
+    try {
+        int numOfRecord = censusAnalyser.loadIndiaCensusData(INDIA_CENSUS_PATH_FILE);
+        Assert.assertEquals(29, numOfRecord);
+    } catch (Exception e) {
+    	System.out.println("State Census CSV file with incorrect Delimiter");
+    }
+}
 }

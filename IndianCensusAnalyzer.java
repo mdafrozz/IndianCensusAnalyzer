@@ -37,6 +37,7 @@ public class IndianCensusAnalyzer {
 			throw new CensusAnalyserException(e.getMessage(),
 					CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM);
 		}
+	
 	}
 
 	public static void main(String[] args) {
