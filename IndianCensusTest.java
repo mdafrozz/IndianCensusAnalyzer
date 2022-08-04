@@ -117,4 +117,15 @@ public void givenIndiaStateCodeCSVFile_WhenLoaded_ShouldReturnCorrectRecords() {
 				Assert.assertEquals(CensusAnalyserException.ExceptionType.CENSUS_FILE_PROBLEM, e.type);
 			}
 		}
+		// Given the State Code CSV file with incorrect Delimiter, Should throw exception.
+		@Test
+		public void givenIndiaStateCodeCSVFile_WhenLoadedWithWrongDelimiter_ShouldThrowException() {
+			try {
+				IndianCensusAnalyzer censusAnalyser = new IndianCensusAnalyzer();
+				int numOfRecord = censusAnalyser.loadStateCodeData(INDIA_STATE_CODE_PATH);
+				Assert.assertEquals(29, numOfRecord);
+			} catch (CensusAnalyserException e) {
+
+			}
+		}
 }
